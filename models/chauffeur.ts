@@ -1,9 +1,8 @@
 import * as mongoose from "mongoose"
 
 const chauffeurSchema = new mongoose.Schema({
-    id: { type: String },
+    id: { String },
     wares_location: { Number },
-    stock_row: { Number },
     work_days: { type: [String] },
     work_hours: { type: [String] },
 });

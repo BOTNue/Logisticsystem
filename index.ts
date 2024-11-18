@@ -12,7 +12,6 @@ new Elysia()
         const newChauffeur = new Chauffeur({
             id: body.id,
             wares_location: body.wares_location,
-            stock_row: body.stock_row,
             work_days: body.work_days,
             work_hours: body.work_hours
         });

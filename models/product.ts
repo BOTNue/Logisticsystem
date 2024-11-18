@@ -1,11 +1,12 @@
 import * as mongoose from "mongoose"
 
 const productSchema = new mongoose.Schema({
-    product_id: { type: String, required: true },
+    product_id: { String, required: true },
     wares_location: { Number, required: true },
     stock_row: { Number, required: true },
     price: { Number, required: true },
-    weight: { type: String, required: true }
+    weight: { String, required: true },
+    priority: { String, required: true }
 });
 
 export type Product = mongoose.InferSchemaType<typeof productSchema>
