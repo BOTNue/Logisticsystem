@@ -36,11 +36,15 @@ new Elysia()
         if (work_hours) filter.work_hours = work_hours;
 
         try {
-            const drivers = await Driver.find(filter)
-            return drivers
+            const drivers = await Driver.find(filter);
+            if (drivers.length === 0) {
+                set.status = 404;
+                return { message: "No drivers found matching the query" };
+            }
+            return drivers;
         } catch (error) {
-            set.status = 404
-            return error
+            set.status = 500;
+            return error;
         }
     })
 
@@ -57,7 +61,7 @@ new Elysia()
             await newPicker.save()
         } catch (error) {
             set.status = 400;
-            return error
+            return error;
         }
         return newPicker;
     })
@@ -77,9 +81,39 @@ new Elysia()
             await newProduct.save()
         } catch (error) {
             set.status = 400;
-            return error
+            return error;
         }
         return newProduct;
     })
 
-    .listen(3030)
+    .get("/product", async ({ query, set }) => {
+        const { name } = query;
+
+        const filter: Record<string, any> = {};
+        if (name) filter.name = name;
+
+        try {
+            const products = await Product.find(filter)
+            if (products.length === 0) {
+                set.status = 404;
+                return { message: "No products found matching the query" };
+            }
+            const response = products.map(product => {
+                // Logging the product object for debugging 
+                console.log("Processing product:", product);
+
+                if (product.quantity === 0) {
+                    return { ...product.toObject(), message: "Out of stock" };
+                }
+                return product.toObject();
+            });
+
+            return response;
+        } catch (error) {
+            set.status = 500;
+            return error;
+        }
+    })
+
+
+    .listen(3030);
