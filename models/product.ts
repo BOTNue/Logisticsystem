@@ -7,7 +7,6 @@ const productSchema = new mongoose.Schema({
     stock_row: { type: Number, required: true },
     price: { type: Number, required: true },
     weight: { type: String, required: true },
-    priority: { type: String, required: true },
     quantity: { type: Number, required: true, default: 0 }
 });
 
